@@ -26,6 +26,9 @@ const LayoutWrapper = ({ children }) => {
                   siteMetadata.headerTitle
                 )}
               </div>
+              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+                {siteMetadata.description}
+              </p>
             </Link>
           </div>
           <div className="flex items-center text-base leading-5">
