@@ -1,0 +1,13 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "k--kato.intellij-idea-keybindings",
+        "eamodio.gitlens",
+        "MS-CEINTL.vscode-language-pack-ja",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}
