@@ -13,9 +13,67 @@ tags:
 
 import MusicScore from '@/components/MusicScore'
 
+## できたこと
+
+最低限だけど、楽譜の表示ができるところまで実装した。
+
 <MusicScore
   code={`
 K:C
 CDEF
 `}
 />
+
+## やったこと
+
+1. `abcjs` をインストール
+
+```bash
+$ npm install --save abcjs
+```
+
+2. 楽譜表示用コンポーネントを作成
+
+```typescript
+import abcjs from 'abcjs'
+import React, { useEffect } from 'react'
+
+const MusicScore = ({ code }) => {
+  useEffect(() => {
+    abcjs.renderAbc('musicNotation', code)
+  })
+  return <div id="musicNotation"></div>
+}
+
+export default MusicScore
+```
+
+3. `jsconfig.json` の `compilerOptions` に `"jsx": "react",` の記述を追加
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react", // この行を追加
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/data/*": ["data/*"],
+      "@/layouts/*": ["layouts/*"],
+      "@/lib/*": ["lib/*"],
+      "@/css/*": ["css/*"]
+    }
+  }
+}
+```
+
+4. mdx ファイルを作成し、はじめに `MusicScore` コンポーネントを import した上で記事を執筆
+
+```markdown
+import MusicScore from '@/components/MusicScore'
+
+これで楽譜が表示される。
+<MusicScore
+code={`K:C
+CDEF`}
+/>
+```
