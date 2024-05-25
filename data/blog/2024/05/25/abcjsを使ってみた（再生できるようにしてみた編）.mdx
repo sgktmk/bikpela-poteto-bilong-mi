@@ -1,0 +1,184 @@
+---
+template: post
+title: abc.js を使ってみた（再生できるようにしてみた編）
+slug: 2024/05/025/abcjs-play
+draft: false
+date: 2024-05-25T15:00:00.000Z
+description: ABC 記法で記述された楽譜を再生できるようにしてみました。
+category: music
+tags:
+  - music
+  - blog
+---
+
+import MusicPlayer from '@/components/MusicPlayer'
+
+## できたこと
+
+ChatGPT と一緒に、楽譜の表示ができるコンポーネントを作った。
+
+<MusicPlayer
+  abcNotation={`
+X: 1
+T: Twinkle, Twinkle, Little Star
+M: 4/4
+L: 1/4
+K: C
+%%textfont Times-Roman 14
+Q:1/4=120
+V:1
+C C G G | A A G2 | F F E E | D D C2 |
+G G F F | E E D2 | G G F F | E E D2 |
+C C G G | A A G2 | F F E E | D D C2 |
+  `}
+/>
+
+## やったこと
+
+このコンポーネントを作って mdx ファイルで使用しただけ。
+
+```js
+import { useEffect, useRef } from 'react'
+import ABCJS from 'abcjs'
+
+const MusicPlayer = ({ abcNotation }) => {
+  const sheetRef = useRef(null)
+
+  useEffect(() => {
+    if (sheetRef.current) {
+      ABCJS.renderAbc(sheetRef.current, abcNotation)
+    }
+  }, [abcNotation])
+
+  const playMusic = () => {
+    if (ABCJS.synth.supportsAudio()) {
+      const visualObj = ABCJS.renderAbc(sheetRef.current, abcNotation)
+      const synthControl = new ABCJS.synth.SynthController()
+      synthControl.load('#audio', null, {
+        displayLoop: true,
+        displayRestart: true,
+        displayPlay: true,
+        displayProgress: true,
+        displayWarp: true,
+      })
+
+      const createSynth = async () => {
+        const synth = new ABCJS.synth.CreateSynth()
+        await synth.init({ visualObj: visualObj[0] })
+        await synth.prime()
+        synthControl.setTune(visualObj[0], true)
+      }
+
+      createSynth()
+    } else {
+      console.error('Audio is not supported in this browser.')
+    }
+  }
+
+  return (
+    <div>
+      <div ref={sheetRef}></div>
+      <div id="audio"></div>
+      <button onClick={playMusic}>Play</button>
+    </div>
+  )
+}
+
+export default MusicPlayer
+```
+
+以下に詳しく解説していきます。
+
+### 必要なモジュールのインポート
+
+```js
+import { useEffect, useRef } from 'react'
+import ABCJS from 'abcjs'
+```
+
+- `useEffect`: `MusicPlayer` コンポーネントのマウント直後や、更新後に副作用を実行するために使用する。
+  - 今回の例では、**楽譜の描画** と **オーディオプレイヤーの初期化** が副作用にあたる。
+- `useRef`: コンポーネント内で DOM 要素や他の変数を参照し、それを保持するために使用する。
+
+### コンポーネント定義
+
+```js
+const MusicPlayer = ({ abcNotation }) => {
+  const sheetRef = useRef(null)
+```
+
+- `MusicPlayer` コンポーネントは、`abcNotation` というプロパティを受け取ることとする。
+- `sheetRef` は、楽譜を描画するための DOM 要素を参照するために使用する。
+
+### `useEffect` フック
+
+```js
+useEffect(() => {
+  if (sheetRef.current) {
+    ABCJS.renderAbc(sheetRef.current, abcNotation)
+  }
+}, [abcNotation])
+```
+
+- このフックは、`abcNotation` が変更されるたびに実行される。
+  - 現状はブログ記事からの入力を許容していないので要らないかもしれない。
+- `ABCJS.renderAbc` を使用して、`sheetRef.current` に楽譜を描画する。
+
+### `playMusic` 関数
+
+```js
+const playMusic = () => {
+  if (ABCJS.synth.supportsAudio()) {
+    const visualObj = ABCJS.renderAbc(sheetRef.current, abcNotation)
+    const synthControl = new ABCJS.synth.SynthController()
+    synthControl.load('#audio', null, {
+      displayLoop: true,
+      displayRestart: true,
+      displayPlay: true,
+      displayProgress: true,
+      displayWarp: true,
+    })
+
+    const createSynth = async () => {
+      const synth = new ABCJS.synth.CreateSynth()
+      await synth.init({ visualObj: visualObj[0] })
+      await synth.prime()
+      synthControl.setTune(visualObj[0], true)
+    }
+
+    createSynth()
+  } else {
+    console.error('Audio is not supported in this browser.')
+  }
+}
+```
+
+- `playMusic()` は楽譜を再生するための関数。
+- `ABCJS.synth.supportsAudio()` でオーディオのサポートを事前に確認して分岐する。
+- `ABCJS.renderAbc` で楽譜を再度描画する。
+- `ABCJS.synth.SynthController` を使用して、プレイヤーコントロールを作成する。オプションは[下記の通り選択できる](https://paulrosen.github.io/abcjs/audio/synthesized-sound.html#load-selector-cursorcontrol-visualoptions)。
+
+| オプション      | デフォルト | 説明                                                                                               |
+| --------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| displayLoop     | false      | ループ再生を可能にするかどうか。                                                                   |
+| displayRestart  | false      | 最初から再生を可能にするかどうか。                                                                 |
+| displayPlay     | true       | 再生ボタンを表示するかどうか。（注：曲が再生中の場合、このボタンは「一時停止」ボタンに変化する。） |
+| displayProgress | true       | シークバーを表示するかどうか。                                                                     |
+| displayWarp     | false      | テンポを表示し、ユーザーがその場でテンポを変更できるようにするかどうか。                           |
+
+- `createSynth` 関数内で `ABCJS.synth.CreateSynth` を使用してシンセサイザーを初期化し、音楽を再生できるようにする。
+
+### JSX のレンダリング
+
+```js
+return (
+  <div>
+    <div ref={sheetRef}></div>
+    <div id="audio"></div>
+    <button onClick={playMusic}>Play</button>
+  </div>
+)
+```
+
+- `id="audio"` の `div` 要素がオーディオプレイヤーとして使用される。
+- `Play` ボタンをクリックすると `playMusic` 関数が呼び出され、音楽が再生される。
