@@ -13,11 +13,9 @@ import siteMetadata from '@/data/siteMetadata'
 import Analytics from '@/components/analytics'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { ClientReload } from '@/components/ClientReload'
-import { GoogleTagManager } from '@next/third-parties/google'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
-const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
 export default function App({ Component, pageProps }) {
   return (
@@ -29,7 +27,6 @@ export default function App({ Component, pageProps }) {
       <Analytics />
       <LayoutWrapper>
         <Component {...pageProps} />
-        {measurementId && <GoogleTagManager gtmId={measurementId} />}
       </LayoutWrapper>
     </ThemeProvider>
   )
