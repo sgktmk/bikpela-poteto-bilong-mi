@@ -7,6 +7,7 @@ const MusicPlayer = ({ abcNotation }) => {
   useEffect(() => {
     if (sheetRef.current) {
       ABCJS.renderAbc(sheetRef.current, abcNotation)
+      playMusic()
     }
   }, [abcNotation])
 
@@ -39,18 +40,6 @@ const MusicPlayer = ({ abcNotation }) => {
     <div>
       <div ref={sheetRef}></div>
       <div id="audio"></div>
-      <button
-        style={{
-          backgroundColor: 'blue',
-          color: 'white',
-          padding: '10px 12px',
-          border: 'none',
-          borderRadius: '5px',
-        }}
-        onClick={playMusic}
-      >
-        Play
-      </button>
     </div>
   )
 }
