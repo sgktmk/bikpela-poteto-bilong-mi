@@ -1,0 +1,91 @@
+---
+template: post
+title: キキョウシティの BGM
+slug: 2024/09/28/viola-city
+draft: false
+date: 2024-09-28T15:00:00.000Z
+description: キキョウシティの BGM を耳コピしてみた
+category: music
+tags:
+  - music
+  - abc-notation
+  - abcjs
+---
+
+import MusicPlayer from '@/components/MusicPlayer'
+
+## キキョウシティ
+
+<MusicPlayer
+  abcNotation={`
+X: 1
+T: キキョウシティ
+M: 4/4
+L: 1/8
+Q: 1/4=117
+%%MIDI program 80
+%%%%%
+V: 1
+[K: B]
+[| .g,.a,.b, d2 ca,g,        | .f,.g,.a, c2 b,a,b, | .g,.a,.b, g,2 a,b,c         | df,.dc- c2 zd/2e/2     |
+ |: f2 zf/g/ .f.e.d.f        | e6 z ^c/d/          | e2 ze/f/ .e.d.c.e           | d6 z B/c/              | 
+ | d2 zd/e/ .d.c(B.c)        | d2 g2 b2 zc/d/      | eGBe d/F/B/d/ c/E/A/c/      | B4 z4                  |
+[K: D]
+|| z b,/c/ df e(3d/e/d/ c.b, |  A.FA e2 d2 c       | .B g/a/ bd' c'(3b/c'/b/ a.g | f.cf e'2 f'2 d'/e'/    |
+ | f'4 z2 zd'/e'/            | [K: B] f'4 z2 za/b/ | c'4 z4                      | [1 a3 =a/g/ f2 zd/e/  :| [2 a3 =a/g/ f2 z2 |]
+%%%%%
+V: 2
+[K: B]
+[| z2 .g, a,2 g,f,e,             | z2 .FD2 Gd,G,                      | z2 .g, b,,2 z .C/.E/.G/.B/           | B,2 .BC- Cz z2                          | 
+ |: z B,/C/ DD/E/ .D.F.G.B       | c/G/.E/.c/ =c/G/.E/.c/ .B.B A2     | z C/E/ Ac/d/ .c.A.F.E                | D2 E2 .^E.E.F=G                         | 
+ | .G/.D/.B,/.D/ BG/G/ .A.A(D.F) | z2 C/^E/G/B/ ^e-e/g//b//d'z        | Z                                    | .E/.B,/.G,/.E/ .B,/.G,/.B,/.E/ D2 z2    |
+[K: D]
+|| z G/a,/ b,d c(3b,/c/b,/ a,.g, |  F.CF D2 E2 F                      | .G B/c/ df e(3d/e/d/ c.B             | A.FA d2 c2 =c                           |
+ | ^g/e/B/e/ .gg/^a/ b3z         | [K: B]  g/e/B/e/ .gg/a/ b3z        | c/B/F/c/ B/F/c/B/ F/C/F/A/ c/f/a/c'/ | [1 c3 =c/B/ ^c2 z2                     :| [2 c3 =c/B/ ^c2 z2  |]
+%%%%%
+V: 4 clef=bass
+[K: B]
+[| E,/G,/B,/.D/ zE2 z2C                    | D,/F,/A,/.C/ zG,2 z z2             |  C,/E,/G,/.B,/ z ^E,2 .C/.E/ z2        | F,,2 .C, A,2 =A,/G,/ F,A,,        |
+ |: .B,,z zB,,/B,,/ z.D,(F,.F,,)           | .C,z zC,/C,/ z .C,(G,.G,,)         | .F,,z zF,,/F,,/ .F,,.F,,(F,.C,)        | .B,, z2 B,,/B,,/ z.B,, B,B,       | 
+ | G, z2 G,/G,/ .=G,.G,F,.F,               | C,/^E,/G,/B,/ z2 C2 z2             | .E,, z2 E,,/E,,/ .F,,.F,,(C,.=C,)      | .B,,z zB,,/B,,/ z.B,,=A,,2        |
+[K:D]
+|| .G,, z2 G,,/G,,/ .A,,.A,, (E,A,,/)A,,/  | .F,, z2 B,,/B,,/-B,, _B,,2.A,,     | .G,, z2 G,,/G,,/ .A,,.A,, (E,A,,/)A,,/ | .F,, z zB,,/B,,/ -B,,_B,,2.A,,    |
+ | .E,z z E,/E,/ z.E, B,G,/F,/             | [K: B] .=F,z zF,/F,/ z.F, CA,/G,/  | .^F,.z zF,/F,/  .F,,.F,, F,F,,/G,,/    | [1 F,3 F,/G,/A,2 zA,,            :| [2 F,3 F,/G,/A,2 z2  |]
+`}
+/>
+
+```abc
+X: 1
+T: キキョウシティ
+M: 4/4
+L: 1/8
+Q: 1/4=117
+%%MIDI program 80
+%%%%%
+V: 1
+[K: B]
+[| .g,.a,.b, d2 ca,g,        | .f,.g,.a, c2 b,a,b, | .g,.a,.b, g,2 a,b,c         | df,.dc- c2 zd/2e/2     |
+ |: f2 zf/g/ .f.e.d.f        | e6 z ^c/d/          | e2 ze/f/ .e.d.c.e           | d6 z B/c/              |
+ | d2 zd/e/ .d.c(B.c)        | d2 g2 b2 zc/d/      | eGBe d/F/B/d/ c/E/A/c/      | B4 z4                  |
+[K: D]
+|| z b,/c/ df e(3d/e/d/ c.b, |  A.FA e2 d2 c       | .B g/a/ bd' c'(3b/c'/b/ a.g | f.cf e'2 f'2 d'/e'/    |
+ | f'4 z2 zd'/e'/            | [K: B] f'4 z2 za/b/ | c'4 z4                      | [1 a3 =a/g/ f2 zd/e/  :| [2 a3 =a/g/ f2 z2 |]
+%%%%%
+V: 2
+[K: B]
+[| z2 .g, a,2 g,f,e,             | z2 .FD2 Gd,G,                      | z2 .g, b,,2 z .C/.E/.G/.B/           | B,2 .BC- Cz z2                          |
+ |: z B,/C/ DD/E/ .D.F.G.B       | c/G/.E/.c/ =c/G/.E/.c/ .B.B A2     | z C/E/ Ac/d/ .c.A.F.E                | D2 E2 .^E.E.F=G                         |
+ | .G/.D/.B,/.D/ BG/G/ .A.A(D.F) | z2 C/^E/G/B/ ^e-e/g//b//d'z        | Z                                    | .E/.B,/.G,/.E/ .B,/.G,/.B,/.E/ D2 z2    |
+[K: D]
+|| z G/a,/ b,d c(3b,/c/b,/ a,.g, |  F.CF D2 E2 F                      | .G B/c/ df e(3d/e/d/ c.B             | A.FA d2 c2 =c                           |
+ | ^g/e/B/e/ .gg/^a/ b3z         | [K: B]  g/e/B/e/ .gg/a/ b3z        | c/B/F/c/ B/F/c/B/ F/C/F/A/ c/f/a/c'/ | [1 c3 =c/B/ ^c2 z2                     :| [2 c3 =c/B/ ^c2 z2  |]
+%%%%%
+V: 4 clef=bass
+[K: B]
+[| E,/G,/B,/.D/ zE2 z2C                    | D,/F,/A,/.C/ zG,2 z z2             |  C,/E,/G,/.B,/ z ^E,2 .C/.E/ z2        | F,,2 .C, A,2 =A,/G,/ F,A,,        |
+ |: .B,,z zB,,/B,,/ z.D,(F,.F,,)           | .C,z zC,/C,/ z .C,(G,.G,,)         | .F,,z zF,,/F,,/ .F,,.F,,(F,.C,)        | .B,, z2 B,,/B,,/ z.B,, B,B,       |
+ | G, z2 G,/G,/ .=G,.G,F,.F,               | C,/^E,/G,/B,/ z2 C2 z2             | .E,, z2 E,,/E,,/ .F,,.F,,(C,.=C,)      | .B,,z zB,,/B,,/ z.B,,=A,,2        |
+[K:D]
+|| .G,, z2 G,,/G,,/ .A,,.A,, (E,A,,/)A,,/  | .F,, z2 B,,/B,,/-B,, _B,,2.A,,     | .G,, z2 G,,/G,,/ .A,,.A,, (E,A,,/)A,,/ | .F,, z zB,,/B,,/ -B,,_B,,2.A,,    |
+ | .E,z z E,/E,/ z.E, B,G,/F,/             | [K: B] .=F,z zF,/F,/ z.F, CA,/G,/  | .^F,.z zF,/F,/  .F,,.F,, F,F,,/G,,/    | [1 F,3 F,/G,/A,2 zA,,            :| [2 F,3 F,/G,/A,2 z2  |]
+```
