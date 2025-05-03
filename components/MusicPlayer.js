@@ -72,7 +72,6 @@ const MusicPlayer = ({ abcNotation }) => {
           const audioParams = {
             audioContext: audioContext,
             options: {
-              soundFontUrl: 'https://paulrosen.github.io/abcjs-assets/soundfont/',
               programOffsets: {}, // Empty object for default instrument mappings
               fadeLength: 200,
               defaultQpm: 180, // Default tempo
