@@ -66,22 +66,34 @@ const MusicPlayer = ({ abcNotation }) => {
 
       const createSynth = async () => {
         try {
-          const synth = new ABCJS.synth.CreateSynth()
-          await synth.init({ visualObj: visualObj })
+          // Create audio context first to ensure it's available
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
           const audioParams = {
-            audioContext: new (window.AudioContext || window.webkitAudioContext)(),
+            audioContext: audioContext,
             options: {
               soundFontUrl: 'https://paulrosen.github.io/abcjs-assets/soundfont/',
               programOffsets: {}, // Empty object for default instrument mappings
               fadeLength: 200,
               defaultQpm: 180, // Default tempo
               defaultSwing: 0, // No swing by default
+              sequenceCallback: function () {}, // Empty callback
+              callbackContext: null,
+              onEnded: function () {},
             },
           }
 
+          const synth = new ABCJS.synth.CreateSynth()
+          await synth.init({
+            visualObj: visualObj,
+            audioContext: audioContext,
+            millisecondsPerMeasure: visualObj.millisecondsPerMeasure(),
+            options: audioParams.options,
+          })
+
           await synth.prime(audioParams)
-          synthControl.setTune(visualObj, false)
+
+          synthControl.setTune(visualObj, false, audioParams)
         } catch (error) {
           console.error('Error initializing audio:', error)
         }
