@@ -8,15 +8,26 @@ description: Devin 2.0 が安くなったので使ってみた。
 category: programming
 tags:
   - programming
+  - ai
+  - generative-ai
+  - devin
   - frontend
   - react
-  - vuejs
   - nextjs
+  - abcjs
 ---
 
 import MusicPlayer from '@/components/MusicPlayer'
 
-## Blue Bossa
+巷で噂の Devin が 2.0 になって、Core プランで $20 から使えるようになったので、使ってみた。
+
+ということで、本ブログの abcjs 関連でずっと気になってた下記の対応を Devin にやってもらった。
+
+- MIDI 再生時、音符にハイライトが付くようにしてほしい
+- スウィング曲を本当にスウィングで再生されるようにしてほしい
+
+実際は Devin だけでは完遂できなくて Cursor, ChatGPT 両氏の力も借りつつだけど、腰が重かった対応が出来てよかった。
+ということで、チャーリー・パーカーで Donna Lee です。
 
 <MusicPlayer
   abcNotation={`
@@ -66,11 +77,11 @@ X: 1
 T: Donna Lee
 M: 4/4
 L: 1/8
-Q: 1/4=250
+Q: 1/4=240
 K: Ab
 R: swing
 %%staves (3 1)
-%%MIDI swing 65
+%%MIDI swing 66
 %%MIDI program 65
 V: 1
 || z4 (3gag f=e | edcB =ACEF  | (3_GAG FE =DFAc  | GF z4 =E=D  |
@@ -101,3 +112,8 @@ V: 3
 || "Fm"   x8        | "C7"   x8         | "Fm"   x8 | "Bdim"  x8           |
  | "Cm7"  x4 "F7"x4 | "Bbm7" x4 "Eb7"x4 | "Ab"   x8 | "Bbm7"  x4 "Eb7"  x4 ||]
 ```
+
+次にやりたいこと：
+
+- 楽譜とコードを読者が切り替えられるようにする。
+- コードをその場で書き替えて遊べる。
