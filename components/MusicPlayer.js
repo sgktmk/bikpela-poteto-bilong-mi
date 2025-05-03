@@ -1,54 +1,20 @@
 import { useEffect, useRef } from 'react'
 import ABCJS from 'abcjs'
 
-function CursorControl() {
-  this.onStart = function() {
-    const svg = document.querySelector("svg");
-    if (svg) {
-      // Create the cursor
-      const cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      cursor.setAttribute("class", "abcjs-cursor");
-      cursor.setAttributeNS(null, 'x1', 0);
-      cursor.setAttributeNS(null, 'y1', 0);
-      cursor.setAttributeNS(null, 'x2', 0);
-      cursor.setAttributeNS(null, 'y2', 0);
-      cursor.setAttributeNS(null, 'stroke', '#1d4ed8');
-      cursor.setAttributeNS(null, 'stroke-width', '2');
-      cursor.setAttributeNS(null, 'opacity', '0.8');
-      svg.appendChild(cursor);
-    }
-  };
-  
-  this.beatSubdivisions = 2;
-  
-  this.onEvent = function(ev) {
-    if (ev.measureStart && ev.left === null)
-      return; // This was the second part of a tie across a measure line
-    
-    const cursor = document.querySelector("svg .abcjs-cursor");
-    if (cursor && ev.left !== undefined) {
-      cursor.setAttribute("x1", ev.left - 2);
-      cursor.setAttribute("x2", ev.left - 2);
-      cursor.setAttribute("y1", ev.top);
-      cursor.setAttribute("y2", ev.top + ev.height);
-    }
-  };
-  
-  this.onFinished = function() {
-    const cursor = document.querySelector("svg .abcjs-cursor");
-    if (cursor) {
-      cursor.setAttribute("x1", 0);
-      cursor.setAttribute("x2", 0);
-      cursor.setAttribute("y1", 0);
-      cursor.setAttribute("y2", 0);
-    }
-  };
-}
-
 const MusicPlayer = ({ abcNotation }) => {
   const sheetRef = useRef(null);
 
   useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      .abcjs-cursor {
+        stroke: #1d4ed8;
+        stroke-width: 2;
+        opacity: 0.8;
+      }
+    `;
+    document.head.appendChild(style);
+    
     const visualObj = ABCJS.renderAbc(sheetRef.current, abcNotation, {
       responsive: 'resize',
       expandToWidest: true,
@@ -56,15 +22,41 @@ const MusicPlayer = ({ abcNotation }) => {
     })[0];
     
     playMusic(visualObj);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
   }, [abcNotation]);
 
   const playMusic = (visualObj) => {
     if (ABCJS.synth.supportsAudio()) {
-      // Create cursor control instance
-      const cursorControl = new CursorControl();
-      
-      // Create synth controller
+      // Create synth controller with cursor support
       const synthControl = new ABCJS.synth.SynthController();
+      
+      const cursorControl = {
+        beatSubdivisions: 2,
+        
+        onStart: function() {
+        },
+        
+        onEvent: function(ev) {
+          if (ev && ev.elements && ev.elements.length > 0) {
+            for (let i = 0; i < ev.elements.length; i++) {
+              for (let j = 0; j < ev.elements[i].length; j++) {
+                ev.elements[i][j].setAttribute("fill", "#1d4ed8");
+              }
+            }
+          }
+        },
+        
+        onFinished: function() {
+          const notes = document.querySelectorAll(".abcjs-note");
+          notes.forEach(note => {
+            note.setAttribute("fill", "");
+          });
+        }
+      };
+      
       synthControl.load('#audio', cursorControl, {
         displayLoop: true,
         displayRestart: true,
@@ -95,4 +87,4 @@ const MusicPlayer = ({ abcNotation }) => {
   );
 };
 
-export default MusicPlayer
+export default MusicPlayer;
