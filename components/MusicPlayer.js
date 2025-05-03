@@ -12,9 +12,6 @@ const MusicPlayer = ({ abcNotation }) => {
         stroke-width: 2;
         opacity: 0.8;
       }
-      .abcjs-highlight {
-        fill: #1d4ed8;
-      }
     `
     document.head.appendChild(style)
 
@@ -22,7 +19,6 @@ const MusicPlayer = ({ abcNotation }) => {
       responsive: 'resize',
       expandToWidest: true,
       add_classes: true,
-      showCursor: true,
     })[0]
 
     playMusic(visualObj)
@@ -39,7 +35,25 @@ const MusicPlayer = ({ abcNotation }) => {
 
       const cursorControl = {
         beatSubdivisions: 2,
-        showCursor: true,
+
+        onStart() {},
+
+        onEvent(ev) {
+          if (ev && ev.elements && ev.elements.length > 0) {
+            for (let i = 0; i < ev.elements.length; i++) {
+              for (let j = 0; j < ev.elements[i].length; j++) {
+                ev.elements[i][j].setAttribute('fill', '#1d4ed8')
+              }
+            }
+          }
+        },
+
+        onFinished() {
+          const notes = document.querySelectorAll('.abcjs-note')
+          notes.forEach((note) => {
+            note.setAttribute('fill', '')
+          })
+        },
       }
 
       synthControl.load('#audio', cursorControl, {
@@ -55,22 +69,31 @@ const MusicPlayer = ({ abcNotation }) => {
           // Create audio context first to ensure it's available
           const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
+          const audioParams = {
+            audioContext: audioContext,
+            options: {
+              soundFontUrl: 'https://paulrosen.github.io/abcjs-assets/soundfont/',
+              programOffsets: {}, // Empty object for default instrument mappings
+              fadeLength: 200,
+              defaultQpm: 180, // Default tempo
+              defaultSwing: 0, // No swing by default
+              sequenceCallback: function () {}, // Empty callback
+              callbackContext: null,
+              onEnded: function () {},
+            },
+          }
+
           const synth = new ABCJS.synth.CreateSynth()
           await synth.init({
             visualObj: visualObj,
             audioContext: audioContext,
+            millisecondsPerMeasure: visualObj.millisecondsPerMeasure(),
+            options: audioParams.options,
           })
 
-          await synth.prime()
+          await synth.prime(audioParams)
 
-          // Set the tune with cursor support
-          synthControl.setTune(visualObj, false, {
-            chordsOff: false,
-            midiTranspose: 0,
-            voicesOff: false,
-            generateDownload: false,
-            soundFontUrl: 'https://paulrosen.github.io/abcjs-assets/soundfont/',
-          })
+          synthControl.setTune(visualObj, false, audioParams)
         } catch (error) {
           console.error('Error initializing audio:', error)
         }
