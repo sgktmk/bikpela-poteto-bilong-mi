@@ -84,6 +84,46 @@ const MusicPlayer = ({ abcNotation }) => {
           // Create audio context first to ensure it's available
           const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
+          // Create a sequence callback function to apply swing
+          const applySwing = function(sequence) {
+            if (!sequence || !sequence.length || swingValue <= 0) return;
+            
+            const swingRatio = 1 + (swingValue / 100);
+            
+            for (let t = 0; t < sequence.length; t++) {
+              const track = sequence[t];
+              if (!track || !track.length) continue;
+              
+              let isEven = true;
+              let lastEvenNoteStartTime = -1;
+              let lastEvenNoteDuration = 0;
+              
+              for (let i = 0; i < track.length; i++) {
+                const note = track[i];
+                
+                if (note.duration === 0.125) {
+                  if (isEven) {
+                    lastEvenNoteStartTime = note.start;
+                    lastEvenNoteDuration = note.duration;
+                  } else if (lastEvenNoteStartTime >= 0) {
+                    const evenNote = track.find(n => n.start === lastEvenNoteStartTime && n.duration === lastEvenNoteDuration);
+                    if (evenNote) {
+                      const newEvenDuration = note.duration * swingRatio;
+                      const durationDiff = newEvenDuration - evenNote.duration;
+                      
+                      evenNote.duration = newEvenDuration;
+                      
+                      note.duration = note.duration * (2 - swingRatio);
+                      note.start += durationDiff;
+                    }
+                  }
+                  
+                  isEven = !isEven;
+                }
+              }
+            }
+          };
+
           const audioParams = {
             audioContext: audioContext,
             options: {
@@ -91,7 +131,7 @@ const MusicPlayer = ({ abcNotation }) => {
               fadeLength: 200,
               defaultQpm: 180, // Default tempo
               defaultSwing: swingValue, // Use the extracted swing value
-              sequenceCallback: function () {}, // Empty callback
+              sequenceCallback: applySwing, // Use our swing implementation
               callbackContext: null,
               onEnded: function () {},
             },
