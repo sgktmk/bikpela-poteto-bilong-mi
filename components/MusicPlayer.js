@@ -30,14 +30,18 @@ const MusicPlayer = ({ abcNotation }) => {
         await synth.init({ visualObj: visualObj })
         await synth.prime()
         
-        const cursorControl = {
-          beatSubdivisions: 2,
-          showCursor: true,
-          cursorColor: '#1d4ed8', // Blue color for cursor
-          cursorAlpha: 0.8, // Opacity of the cursor
+        const audioParams = {
+          options: {
+            cursorControl: {
+              beatSubdivisions: 2,
+              showCursor: true,
+              cursorColor: '#1d4ed8', // Blue color for cursor
+              cursorAlpha: 0.8, // Opacity of the cursor
+            }
+          }
         }
         
-        synthControl.setTune(visualObj, false, cursorControl)
+        synthControl.setTune(visualObj, false, audioParams)
       }
 
       createSynth()
