@@ -24,14 +24,17 @@ const MusicPlayer = ({ abcNotation }) => {
       add_classes: true,
     })[0]
 
-    playMusic(visualObj)
+    // Extract swing value from the visualObj meta if available
+    const swingValue = visualObj?.metaText?.midi?.swing || 0
+
+    playMusic(visualObj, swingValue)
 
     return () => {
       document.head.removeChild(style)
     }
   }, [abcNotation])
 
-  const playMusic = (visualObj) => {
+  const playMusic = (visualObj, swingValue = 0) => {
     if (ABCJS.synth.supportsAudio()) {
       // Create synth controller with cursor support
       const synthControl = new ABCJS.synth.SynthController()
@@ -87,7 +90,7 @@ const MusicPlayer = ({ abcNotation }) => {
               programOffsets: {}, // Empty object for default instrument mappings
               fadeLength: 200,
               defaultQpm: 180, // Default tempo
-              defaultSwing: 0, // No swing by default
+              defaultSwing: swingValue, // Use the extracted swing value
               sequenceCallback: function () {}, // Empty callback
               callbackContext: null,
               onEnded: function () {},
