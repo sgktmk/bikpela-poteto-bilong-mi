@@ -55,13 +55,28 @@ const MusicPlayer = ({ abcNotation }) => {
           // Create audio context first to ensure it's available
           const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
+          const audioParams = {
+            audioContext: audioContext,
+            options: {
+              soundFontUrl: 'https://paulrosen.github.io/abcjs-assets/soundfont/',
+              defaultSwing: 0, // Explicitly set swing to 0 to avoid TypeError
+              programOffsets: {},
+              fadeLength: 200,
+              defaultQpm: 180,
+              sequenceCallback: function () {},
+              callbackContext: null,
+              onEnded: function () {},
+            },
+          }
+
           const synth = new ABCJS.synth.CreateSynth()
           await synth.init({
             visualObj: visualObj,
             audioContext: audioContext,
+            options: audioParams.options,
           })
 
-          await synth.prime()
+          await synth.prime(audioParams)
 
           // Set the tune with cursor support
           synthControl.setTune(visualObj, false, {
