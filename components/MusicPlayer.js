@@ -26,9 +26,7 @@ const MusicPlayer = ({ abcNotation }) => {
 
     const swingMatch = abcNotation.match(/%%MIDI swing\s+(\d+)/)
     const swingValue = swingMatch ? parseInt(swingMatch[1], 10) : 0
-    const validatedSwingValue = isNaN(swingValue) ? 0 : swingValue
-
-    playMusic(visualObj, validatedSwingValue)
+    playMusic(visualObj, swingValue)
 
     return () => {
       document.head.removeChild(style)
