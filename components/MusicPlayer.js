@@ -6,7 +6,9 @@ const MusicPlayer = ({ abcNotation }) => {
   const lastHighlightedRef = useRef([])
 
   useEffect(() => {
+    const styleId = `music-player-style-${Math.random().toString(36).substr(2, 9)}`
     const style = document.createElement('style')
+    style.id = styleId
     style.textContent = `
       .abcjs-cursor {
         stroke: #1d4ed8;
