@@ -78,7 +78,7 @@ const MusicPlayer = ({ abcNotation }) => {
         displayProgress: true,
         displayWarp: true,
         options: {
-          swing: swingValue, // Apply swing directly here
+          swing: swingValue, // Apply swing directly in the options
         },
       })
 
@@ -87,13 +87,13 @@ const MusicPlayer = ({ abcNotation }) => {
           // Create audio context first to ensure it's available
           const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
+          // Create audio parameters with swing value
           const audioParams = {
             audioContext: audioContext,
             options: {
               programOffsets: {}, // Empty object for default instrument mappings
               fadeLength: 200,
               defaultQpm: 180, // Default tempo
-              swing: swingValue, // Use the extracted swing value directly
               onEnded: function () {},
             },
           }
@@ -103,7 +103,10 @@ const MusicPlayer = ({ abcNotation }) => {
             visualObj: visualObj,
             audioContext: audioContext,
             millisecondsPerMeasure: visualObj.millisecondsPerMeasure(),
-            options: audioParams.options,
+            options: {
+              ...audioParams.options,
+              swing: swingValue, // Ensure swing value is passed to synth initialization
+            },
           })
 
           await synth.prime(audioParams)
