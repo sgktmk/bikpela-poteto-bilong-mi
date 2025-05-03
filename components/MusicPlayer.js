@@ -3,6 +3,7 @@ import ABCJS from 'abcjs'
 
 const MusicPlayer = ({ abcNotation }) => {
   const sheetRef = useRef(null)
+  const lastHighlightedRef = useRef([])
 
   useEffect(() => {
     const style = document.createElement('style')
@@ -36,23 +37,32 @@ const MusicPlayer = ({ abcNotation }) => {
       const cursorControl = {
         beatSubdivisions: 2,
 
-        onStart() {},
+        onStart() {
+          // 再生開始時に前回のハイライトをクリア
+          lastHighlightedRef.current.forEach((el) => el.setAttribute('fill', ''))
+          lastHighlightedRef.current = []
+        },
 
         onEvent(ev) {
+          // 前回のハイライトをクリア
+          lastHighlightedRef.current.forEach((el) => el.setAttribute('fill', ''))
+          lastHighlightedRef.current = []
+
+          // 今回の音符に色を付けて記憶
           if (ev && ev.elements && ev.elements.length > 0) {
             for (let i = 0; i < ev.elements.length; i++) {
               for (let j = 0; j < ev.elements[i].length; j++) {
-                ev.elements[i][j].setAttribute('fill', '#1d4ed8')
+                ev.elements[i][j].setAttribute('fill', '#dc2626')
+                lastHighlightedRef.current.push(ev.elements[i][j])
               }
             }
           }
         },
 
         onFinished() {
-          const notes = document.querySelectorAll('.abcjs-note')
-          notes.forEach((note) => {
-            note.setAttribute('fill', '')
-          })
+          // 再生終了時にハイライトをクリア
+          lastHighlightedRef.current.forEach((el) => el.setAttribute('fill', ''))
+          lastHighlightedRef.current = []
         },
       }
 
