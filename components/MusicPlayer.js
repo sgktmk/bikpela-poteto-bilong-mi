@@ -8,6 +8,8 @@ const MusicPlayer = ({ abcNotation }) => {
     const visualObj = ABCJS.renderAbc(sheetRef.current, abcNotation, {
       responsive: 'resize',
       expandToWidest: true,
+      add_classes: true,
+      showCursor: true,
     })
     playMusic(visualObj[0])
   }, [abcNotation])
@@ -27,7 +29,15 @@ const MusicPlayer = ({ abcNotation }) => {
         const synth = new ABCJS.synth.CreateSynth()
         await synth.init({ visualObj: visualObj })
         await synth.prime()
-        synthControl.setTune(visualObj, false)
+        
+        const cursorControl = {
+          beatSubdivisions: 2,
+          showCursor: true,
+          cursorColor: '#1d4ed8', // Blue color for cursor
+          cursorAlpha: 0.8, // Opacity of the cursor
+        }
+        
+        synthControl.setTune(visualObj, false, cursorControl)
       }
 
       createSynth()
