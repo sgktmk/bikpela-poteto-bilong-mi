@@ -24,14 +24,18 @@ const MusicPlayer = ({ abcNotation }) => {
       add_classes: true,
     })[0]
 
-    playMusic(visualObj)
+    const swingMatch = abcNotation.match(/%%MIDI swing\s+(\d+)/)
+    const swingValue = swingMatch ? parseInt(swingMatch[1], 10) : 0
+    const validatedSwingValue = isNaN(swingValue) ? 0 : swingValue
+
+    playMusic(visualObj, validatedSwingValue)
 
     return () => {
       document.head.removeChild(style)
     }
   }, [abcNotation])
 
-  const playMusic = (visualObj) => {
+  const playMusic = (visualObj, swingValue = 0) => {
     if (ABCJS.synth.supportsAudio()) {
       // Create synth controller with cursor support
       const synthControl = new ABCJS.synth.SynthController()
@@ -78,20 +82,14 @@ const MusicPlayer = ({ abcNotation }) => {
 
       const createSynth = async () => {
         try {
-          // Create audio context first to ensure it's available
           const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
-          const audioParams = {
-            audioContext: audioContext,
-            options: {
-              programOffsets: {}, // Empty object for default instrument mappings
-              fadeLength: 200,
-              defaultQpm: 180, // Default tempo
-              defaultSwing: 0, // No swing by default
-              sequenceCallback: function () {}, // Empty callback
-              callbackContext: null,
-              onEnded: function () {},
-            },
+          const options = {
+            programOffsets: {},
+            fadeLength: 200,
+            defaultQpm: 180,
+            swing: swingValue,
+            onEnded: function () {},
           }
 
           const synth = new ABCJS.synth.CreateSynth()
@@ -99,12 +97,12 @@ const MusicPlayer = ({ abcNotation }) => {
             visualObj: visualObj,
             audioContext: audioContext,
             millisecondsPerMeasure: visualObj.millisecondsPerMeasure(),
-            options: audioParams.options,
+            options,
           })
 
-          await synth.prime(audioParams)
+          await synth.prime({ audioContext, options })
 
-          synthControl.setTune(visualObj, false, audioParams)
+          synthControl.setTune(visualObj, false, options)
         } catch (error) {
           console.error('Error initializing audio:', error)
         }
