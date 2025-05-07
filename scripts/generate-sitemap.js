@@ -32,6 +32,15 @@ const siteMetadata = require('../data/siteMetadata')
                   if (fm.data.canonicalUrl) {
                     return
                   }
+
+                  if (fm.data.slug) {
+                    const route = `/blog/${fm.data.slug}`
+                    return `
+                        <url>
+                            <loc>${siteMetadata.siteUrl}${route}</loc>
+                        </url>
+                    `
+                  }
                 }
                 const path = page
                   .replace('pages/', '/')
