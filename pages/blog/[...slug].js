@@ -1,4 +1,6 @@
 import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
 import PageTitle from '@/components/PageTitle'
 import generateRss from '@/lib/generate-rss'
 import { MDXLayoutRenderer } from '@/components/MDXComponents'
@@ -8,10 +10,18 @@ const DEFAULT_LAYOUT = 'PostLayout'
 
 export async function getStaticPaths() {
   const posts = getFiles('blog')
+  const allFrontMatter = await Promise.all(
+    posts.map(async (p) => {
+      const source = fs.readFileSync(path.join(process.cwd(), 'data', 'blog', p), 'utf8')
+      const { data } = matter(source)
+      return { slug: data.slug || formatSlug(p), filePath: p }
+    })
+  )
   return {
-    paths: posts.map((p) => ({
+    paths: allFrontMatter.map((post) => ({
       params: {
-        slug: formatSlug(p).split('/'),
+        slug: post.slug.split('/'),
+        filePath: post.filePath,
       },
     })),
     fallback: false,
@@ -20,10 +30,19 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const allPosts = await getAllFilesFrontMatter('blog')
-  const postIndex = allPosts.findIndex((post) => formatSlug(post.slug) === params.slug.join('/'))
+  const postIndex = allPosts.findIndex((post) => post.slug === params.slug.join('/'))
   const prev = allPosts[postIndex + 1] || null
   const next = allPosts[postIndex - 1] || null
-  const post = await getFileBySlug('blog', params.slug.join('/'))
+  const posts = getFiles('blog')
+  const filePath = posts.find((p) => {
+    const source = fs.readFileSync(path.join(process.cwd(), 'data', 'blog', p), 'utf8')
+    const { data } = matter(source)
+    return (data.slug || formatSlug(p)) === params.slug.join('/')
+  })
+  if (!filePath) {
+    throw new Error(`No file found for slug: ${params.slug.join('/')}`)
+  }
+  const post = await getFileBySlug('blog', formatSlug(filePath))
   const authorList = post.frontMatter.authors || ['default']
   const authorPromise = authorList.map(async (author) => {
     const authorResults = await getFileBySlug('authors', [author])
