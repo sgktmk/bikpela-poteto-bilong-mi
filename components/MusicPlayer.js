@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ABCJS from 'abcjs'
 
 const MusicPlayer = ({ abcNotation }) => {
   const sheetRef = useRef(null)
   const lastHighlightedRef = useRef([])
+  const [showNotation, setShowNotation] = useState(false)
 
   useEffect(() => {
     const styleId = `music-player-style-${Math.random().toString(36).substr(2, 9)}`
@@ -113,9 +114,25 @@ const MusicPlayer = ({ abcNotation }) => {
   }
 
   return (
-    <div>
-      <div ref={sheetRef}></div>
-      <div id="audio"></div>
+    <div className="relative">
+      {!showNotation ? (
+        <div>
+          <div ref={sheetRef}></div>
+          <div id="audio"></div>
+        </div>
+      ) : (
+        <pre className="rounded bg-gray-100 p-4 dark:bg-gray-800">
+          <code>{abcNotation}</code>
+        </pre>
+      )}
+      <div className="mt-2 flex justify-center">
+        <button
+          onClick={() => setShowNotation(!showNotation)}
+          className="rounded border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+        >
+          {showNotation ? 'Show Score' : 'Show ABC Notation'}
+        </button>
+      </div>
     </div>
   )
 }
