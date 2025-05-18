@@ -1,0 +1,25 @@
+---
+template: post
+title: Raspberry Pi 3 Model B と Pi 2 の使い道を模索している
+slug: 2025/05/18/raspberry-pi-3-and-2-usecases
+draft: false
+date: 2025-05-18T23:00:00.000Z
+description: ハードオフで確保した Raspberry Pi の 3 Model B と 2 をどうやって使おうか考えている。
+category: programming
+tags:
+  - programming
+  - raspberrypi
+---
+
+ハードオフで、それぞれ別々の時期に確保した Raspberry Pi の 3 と 2 を持っている。
+
+![ラズパイたち](/static/images/blog/2025/05/18/raspberry-pi-3-and-2.jpg)
+
+特に何の目的も無しに買ったけど、買ったからには何かしらに使いたいので模索中。
+
+とりあえず、↓の通り OS を焼いて初期設定してみて、このブログのリポジトリを clone したのちに Tailscale を導入して自宅外からのネットワーク越しでもラズパイに SSH 出来るようにはしたけど、3 の方でもスペック不足で `npm run dev` でのホットリロードは厳しかった（爆発した）ので、ポータブル開発端末としての使いようは無さそうなことだけ分かった。
+
+- Raspberry Pi 3 Model B：Ubuntu Server 24.04 LTS
+- Raspberry Pi 2：Alpine Linux 3.21
+
+よくある例だと NAS にしてみたとか、VPN サーバにしてみたとかなんだけど、他になんか面白い使い方あるかなあ。
