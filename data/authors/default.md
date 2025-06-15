@@ -1,6 +1,6 @@
 ---
 name: しお
-avatar: /static/images/profile_fenderbass.png
+avatar: /static/images/profile_fenderbass.jpg
 occupation: Web Engineer, Engineering Manager (Rookie)
 email: me@sgktmk.com
 twitter: https://x.com/sgktmk_com
