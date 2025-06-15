@@ -1,10 +1,10 @@
 ---
-name: sgktmk
-avatar: /static/images/profile.jpg
-occupation: Web Engineer
+name: しお
+avatar: /static/images/profile_fenderbass.jpg
+occupation: Web Engineer, Engineering Manager (Rookie)
 email: me@sgktmk.com
-twitter: https://twitter.com/sgktmk
+twitter: https://x.com/sgktmk_com
 github: https://github.com/sgktmk
 ---
 
-猫です。たまに喋ります。色々なことを勉強中。
+福井県で楽器を吹いたり弾いたり聴いたり、プログラムを書いたり書かなかったりしています。  
