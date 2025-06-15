@@ -13,6 +13,8 @@ const siteMetadata = {
   email: 'me@sgktmk.com',
   github: 'https://github.com/sgktmk',
   twitter: 'https://twitter.com/sgktmk',
+  discord: '',
+  connpass: '',
   locale: 'ja-JP',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
