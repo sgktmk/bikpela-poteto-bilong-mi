@@ -11,9 +11,9 @@ const components = {
   mail: Mail,
   github: Github,
   facebook: Facebook,
-  youtube: Youtube,
   linkedin: Linkedin,
   twitter: Twitter,
+  youtube: Youtube,
 }
 
 const SocialIcon = ({ kind, href, size = 8 }) => {
