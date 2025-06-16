@@ -29,19 +29,19 @@ const OgpCard = ({ url }) => {
   if (!data) return null
 
   return (
-    <a href={data.url} target="_blank" rel="noopener noreferrer" className="block my-4">
-      <div className="flex overflow-hidden rounded-md border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
+    <a href={data.url} target="_blank" rel="noopener noreferrer" className="my-4 block">
+      <div className="flex overflow-hidden rounded-md border border-gray-200 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800">
         {data.image && (
-          <div className="relative w-32 h-20 flex-shrink-0">
+          <div className="relative h-20 w-32 flex-shrink-0">
             <Image src={data.image} alt="og image" fill className="object-cover" />
           </div>
         )}
         <div className="p-2 text-sm">
-          <p className="font-semibold line-clamp-2">{data.title}</p>
+          <p className="line-clamp-2 font-semibold">{data.title}</p>
           {data.description && (
-            <p className="text-gray-500 dark:text-gray-400 line-clamp-2">{data.description}</p>
+            <p className="line-clamp-2 text-gray-500 dark:text-gray-400">{data.description}</p>
           )}
-          <p className="text-xs text-gray-400 mt-1">{new URL(data.url).host}</p>
+          <p className="mt-1 text-xs text-gray-400">{new URL(data.url).host}</p>
         </div>
       </div>
     </a>
