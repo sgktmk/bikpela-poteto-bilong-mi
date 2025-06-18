@@ -1,7 +1,7 @@
 ---
 name: しお
 avatar: /static/images/profile_fenderbass.jpg
-occupation: Web Engineer, Engineering Manager (Rookie)
+occupation: Web Engineer
 email: me@sgktmk.com
 twitter: https://x.com/sgktmk_com
 github: https://github.com/sgktmk
@@ -11,7 +11,7 @@ youtube: https://www.youtube.com/@sgktmk
 ### 概略
 
 福井県で楽器を吹いたり弾いたり聴いたり、プログラムを書いたり書かなかったりしています。  
-2018 年卒で SIer に入り、東京で 3 年近く勤めた後に福井に移住して、WEB 開発してる系の会社にいます。最近ではテックリードやエンジニアリングリードなど、管理寄りのロールを任せていただくことが増えてきました。
+2018 年卒で SIer に入り、東京で 3 年近く勤めた後に転職とともに福井県に移住して、WEB 開発をやっています。
 
 ### 所属している主なコミュニティ
 
