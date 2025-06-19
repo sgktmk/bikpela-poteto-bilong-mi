@@ -1,11 +1,16 @@
 import abcjs from 'abcjs'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const MusicScore = ({ code }) => {
+  const notationRef = useRef(null)
+
   useEffect(() => {
-    abcjs.renderAbc('musicNotation', code)
-  })
-  return <div id="musicNotation"></div>
+    if (notationRef.current) {
+      abcjs.renderAbc(notationRef.current, code)
+    }
+  }, [code])
+
+  return <div ref={notationRef}></div>
 }
 
 export default MusicScore
