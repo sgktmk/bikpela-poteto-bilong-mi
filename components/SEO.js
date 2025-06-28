@@ -84,12 +84,8 @@ export const BlogSEO = ({
   const router = useRouter()
   const publishedAt = new Date(date).toISOString()
   const modifiedAt = new Date(lastmod || date).toISOString()
-  let imagesArr =
-    images.length === 0
-      ? [siteMetadata.socialBanner]
-      : typeof images === 'string'
-      ? [images]
-      : images
+  const defaultOg = `/api/og?title=${encodeURIComponent(title)}`
+  let imagesArr = images.length === 0 ? [defaultOg] : typeof images === 'string' ? [images] : images
 
   const featuredImages = imagesArr.map((img) => {
     return {
