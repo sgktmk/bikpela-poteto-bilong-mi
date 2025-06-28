@@ -9,10 +9,10 @@ const siteMetadata = {
   siteRepo: 'https://github.com/sgktmk/bikpela-poteto-bilong-mi',
   siteLogo: '/static/images/bikpela-logo.png',
   image: '/static/images/avatar.png',
-  socialBanner: '/static/images/bikpela-logo.png',
+  socialBanner: '/static/images/bpbm_ogp.png',
   email: 'me@sgktmk.com',
   github: 'https://github.com/sgktmk',
-  twitter: 'https://twitter.com/sgktmk',
+  twitter: 'https://twitter.com/sgktmk_com',
   youtube: 'https://www.youtube.com/@sgktmk',
   locale: 'ja-JP',
   analytics: {
