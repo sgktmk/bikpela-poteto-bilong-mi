@@ -1,0 +1,48 @@
+---
+template: post
+title: Monsters, Inc. Main Theme
+slug: 2025/07/14/monsters-inc-main-theme
+draft: false
+date: 2025-07-14T12:00:00.000Z
+description: モンスターズインクのメインテーマ
+category: 日記
+tags:
+  - diary
+  - abcjs
+  - music
+---
+
+最近 YouTube でこの曲のサックス4重奏アレンジを聴いて、改めて聴くとめちゃくちゃいい曲だなと思ったので楽譜に起こしてみた。  
+モンスターズインク、遠い昔に観た記憶があるけど、改めて観たい。
+
+import MusicPlayer from '@/components/MusicPlayer'
+
+<MusicPlayer
+  abcNotation={`
+X: 1
+T: Monsters, Inc. Main Theme
+C: Randy Newman
+M: 4/4
+L: 1/8
+R: Medium Swing
+Q: 1/4=210
+K: Eb
+%%staves(1,2)
+V: 1
+|(3e=ef | _gagf ez (3c^cd | efed cz (3AB=B | ce2f _gde=e | f^cdB z4 ||
+[|: z2 zG GABF | zF3 z4 | z2 zG GABE- | E4 z4 | [1 z4 GABc | zG3 z4 | zGGG zdzF | B4 z4 :|]
+ [2 z2 G2 Bc-c2 | (3G/A/G/F EC EF-F2 | E2 (3GA=A Bc zG | B=ABc _de3 ||
+|| z2 c=B c2 cB | cd-d4 z=A | B2 B=A BcAB- | B8 |
+| zA zG A3G | AB-B2 z2 zE | GABc z2 zC | FGAB z4 |
+|| z2 zG GABF | zF3 z4 | z2 zG GABE- | E4 z4 | z2 G2 Bc-c2 | (3G/A/G/F EC EF-F2 |
+| z2 G2 Bc-c2 | (3G/A/G/F EC EF-F2 | | z2 G2 Bc-c2 | (3G/A/G/F EC EF-F2 | E2 z2 z4 ||
+V: 2
+| x2 | "Ebm7b5"x8 | "Cm7b5"x8 | "F7"x8 | "Bb7"x8 ||
+[|: "Eb"x8 | "Eb7"x8 | "Ab"x8 | "Abm7"x8 | [1 "Eb"x8 | "Cm7"x8 | "Fm7"x4 "F7"x4 | "Bb7"x8 :|]
+ [2 "Eb"x4 "C7"x4 | "F7"x4 "Bb7"x4 | "Eb"x8 | "Bbm"x4 "Ebm7"x4 ||
+|| "AbM7"x8 | "A7"x4 "D7"x4 | "Gm"x4 "BbM7#5"x4 | "Gm7"x4 "C7"x4 |
+| "Fm"x4 "AbM7"x4 | "Fm7"x4 "D7"x4 | "Eb"x4 "C7"x4 | "F7"x4 "Bb7#5"x4 |
+|| "Eb"x8 | "Eb7"x8 | "Ab"x8 | "Abm7"x8 | "Eb"x4 "C7"x4 | "F7"x4 "Bb7"x4 |
+| "Eb"x4 "C7"x4 | "F7"x4 "Bb7"x4 | "Eb"x4 "C7"x4 | "F7"x4 "Bb7"x4 | "Eb7"x2 x6 ||
+`}
+/>
