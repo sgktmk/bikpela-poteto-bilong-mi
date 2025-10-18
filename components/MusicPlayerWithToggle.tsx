@@ -26,9 +26,13 @@ const MusicPlayerWithToggle: React.FC<MusicPlayerWithToggleProps> = ({ abcNotati
     <div className="music-player-with-toggle">
       {/* コンテンツ表示 */}
       <div className="music-content">
-        {displayMode === 'score' ? (
+        {/* 楽譜表示（常にマウント、CSS表示切り替え） */}
+        <div className={displayMode === 'score' ? 'block' : 'hidden'}>
           <MusicPlayer abcNotation={abcNotation} />
-        ) : (
+        </div>
+
+        {/* ABC記法表示（常にマウント、CSS表示切り替え） */}
+        <div className={displayMode === 'notation' ? 'block' : 'hidden'}>
           <div className="relative">
             {/* コピーボタン */}
             <button
@@ -74,7 +78,7 @@ const MusicPlayerWithToggle: React.FC<MusicPlayerWithToggleProps> = ({ abcNotati
               <code className="language-abc">{abcNotation}</code>
             </pre>
           </div>
-        )}
+        </div>
       </div>
 
       {/* トグルボタン */}
