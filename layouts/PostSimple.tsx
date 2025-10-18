@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
@@ -6,8 +7,23 @@ import siteMetadata from '@/data/siteMetadata'
 import formatDate from '@/lib/utils/formatDate'
 import Comments from '@/components/comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import { FrontMatter, AuthorDetails } from '@/types'
 
-export default function PostLayout({ frontMatter, authorDetails, next, prev, children }) {
+interface PostSimpleProps {
+  frontMatter: FrontMatter
+  authorDetails?: AuthorDetails[]
+  next?: {
+    slug: string
+    title: string
+  }
+  prev?: {
+    slug: string
+    title: string
+  }
+  children: React.ReactNode
+}
+
+const PostSimple: React.FC<PostSimpleProps> = ({ frontMatter, next, prev, children }) => {
   const { date, title } = frontMatter
 
   return (
@@ -69,3 +85,5 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
     </SectionContainer>
   )
 }
+
+export default PostSimple

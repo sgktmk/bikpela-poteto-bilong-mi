@@ -1,9 +1,40 @@
-import { useEffect, useRef } from 'react'
-import ABCJS from 'abcjs'
+import React, { useEffect, useRef } from 'react'
 
-const MusicPlayer = ({ abcNotation }) => {
-  const sheetRef = useRef(null)
-  const lastHighlightedRef = useRef([])
+// ABCJS型定義の拡張
+declare const ABCJS: {
+  renderAbc: (element: HTMLElement | null, abcString: string, options?: any) => any[]
+  synth: {
+    supportsAudio: () => boolean
+    SynthController: new () => {
+      load: (elementId: string, cursorControl: any, options: any) => void
+      setTune: (visualObj: any, userAction: boolean, options: any) => void
+    }
+    CreateSynth: new () => {
+      init: (options: {
+        visualObj: any
+        audioContext: AudioContext
+        millisecondsPerMeasure: number
+        options: any
+      }) => Promise<void>
+      prime: (options: { audioContext: AudioContext; options: any }) => Promise<void>
+    }
+  }
+}
+
+interface MusicPlayerProps {
+  abcNotation: string
+}
+
+interface CursorControl {
+  beatSubdivisions: number
+  onStart: () => void
+  onEvent: (ev: any) => void
+  onFinished: () => void
+}
+
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const lastHighlightedRef = useRef<HTMLElement[]>([])
 
   useEffect(() => {
     const styleId = `music-player-style-${Math.random().toString(36).substr(2, 9)}`
@@ -33,12 +64,12 @@ const MusicPlayer = ({ abcNotation }) => {
     }
   }, [abcNotation])
 
-  const playMusic = (visualObj, swingValue = 0) => {
+  const playMusic = (visualObj: any, swingValue = 0) => {
     if (ABCJS.synth.supportsAudio()) {
       // Create synth controller with cursor support
       const synthControl = new ABCJS.synth.SynthController()
 
-      const cursorControl = {
+      const cursorControl: CursorControl = {
         beatSubdivisions: 2,
 
         onStart() {
@@ -80,14 +111,16 @@ const MusicPlayer = ({ abcNotation }) => {
 
       const createSynth = async () => {
         try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
 
           const options = {
             programOffsets: {},
             fadeLength: 200,
             defaultQpm: 180,
             swing: swingValue,
-            onEnded: function () {},
+            onEnded: function () {
+              // 再生終了時の処理（空でも問題なし）
+            },
           }
 
           const synth = new ABCJS.synth.CreateSynth()
