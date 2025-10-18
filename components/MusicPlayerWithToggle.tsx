@@ -24,32 +24,6 @@ const MusicPlayerWithToggle: React.FC<MusicPlayerWithToggleProps> = ({ abcNotati
 
   return (
     <div className="music-player-with-toggle">
-      {/* トグルボタン */}
-      <div className="mb-4 flex gap-2 border-b border-gray-200 dark:border-gray-700">
-        <button
-          onClick={() => setDisplayMode('score')}
-          className={`px-4 py-2 font-medium transition-colors ${
-            displayMode === 'score'
-              ? 'border-b-2 border-primary-500 text-primary-600 dark:text-primary-400'
-              : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
-          }`}
-          aria-label="楽譜を表示"
-        >
-          楽譜を表示
-        </button>
-        <button
-          onClick={() => setDisplayMode('notation')}
-          className={`px-4 py-2 font-medium transition-colors ${
-            displayMode === 'notation'
-              ? 'border-b-2 border-primary-500 text-primary-600 dark:text-primary-400'
-              : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
-          }`}
-          aria-label="ABC記法を表示"
-        >
-          ABC記法を表示
-        </button>
-      </div>
-
       {/* コンテンツ表示 */}
       <div className="music-content">
         {displayMode === 'score' ? (
@@ -101,6 +75,32 @@ const MusicPlayerWithToggle: React.FC<MusicPlayerWithToggleProps> = ({ abcNotati
             </pre>
           </div>
         )}
+      </div>
+
+      {/* トグルボタン */}
+      <div className="mt-2 flex justify-end gap-1">
+        <button
+          onClick={() => setDisplayMode('score')}
+          className={`rounded px-2 py-1 text-xs transition-colors ${
+            displayMode === 'score'
+              ? 'bg-primary-500 text-white dark:bg-primary-600'
+              : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
+          }`}
+          aria-label="楽譜を表示"
+        >
+          楽譜
+        </button>
+        <button
+          onClick={() => setDisplayMode('notation')}
+          className={`rounded px-2 py-1 text-xs transition-colors ${
+            displayMode === 'notation'
+              ? 'bg-primary-500 text-white dark:bg-primary-600'
+              : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
+          }`}
+          aria-label="ABC記法を表示"
+        >
+          ABC記法
+        </button>
       </div>
     </div>
   )
