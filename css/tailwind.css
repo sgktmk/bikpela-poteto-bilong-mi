@@ -11,7 +11,7 @@
 }
 
 .footnotes {
-  @apply pt-8 mt-12 border-t border-gray-200 dark:border-gray-700;
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
 }
 
 .csl-entry {
@@ -22,4 +22,25 @@
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+/* レスポンシブ調整とレイアウト改善 */
+@layer components {
+  .header-nav-link {
+    @apply p-2 font-medium text-gray-900 transition-colors duration-200 hover:text-primary-600 dark:text-gray-100 dark:hover:text-primary-400 sm:p-4;
+  }
+
+  .music-notation-container {
+    @apply my-6 overflow-x-auto rounded-lg bg-gray-50 p-4 dark:bg-gray-800;
+  }
+
+  .prose-content {
+    @apply prose prose-lg max-w-none dark:prose-dark;
+  }
+
+  @media (max-width: 768px) {
+    .prose-content {
+      @apply prose-base;
+    }
+  }
 }

@@ -6,12 +6,13 @@ module.exports = {
     optimizeUniversalDefaults: true,
   },
   content: [
-    './pages/**/*.js',
-    './components/**/*.js',
-    './layouts/**/*.js',
-    './lib/**/*.js',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+    './layouts/**/*.{js,ts,jsx,tsx}',
+    './lib/**/*.{js,ts,jsx,tsx}',
     './data/**/*.mdx',
   ],
+  safelist: ['h-4', 'w-4', 'h-5', 'w-5', 'h-6', 'w-6', 'h-7', 'w-7', 'h-8', 'w-8', 'h-10', 'w-10'],
   darkMode: 'class',
   theme: {
     extend: {

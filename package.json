@@ -2,13 +2,16 @@
   "name": "tailwind-nextjs-starter-blog",
   "version": "1.5.6",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "cross-env SOCKET=true node ./scripts/next-remote-watch.js ./data",
     "dev": "next dev",
     "build": "next build && node ./scripts/generate-sitemap",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
+    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -46,6 +49,11 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.1.2",
+    "@types/node": "^24.8.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "cross-env": "^7.0.3",
     "dedent": "^0.7.0",
     "eslint": "^7.29.0",
@@ -61,7 +69,8 @@
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.4",
     "socket.io": "^4.4.0",
-    "socket.io-client": "^4.4.0"
+    "socket.io-client": "^4.4.0",
+    "typescript": "^5.9.3"
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
