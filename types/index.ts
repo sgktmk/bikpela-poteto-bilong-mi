@@ -34,6 +34,13 @@ export interface AuthorDetails {
   github?: string
 }
 
+// 目次関連の型定義
+export interface TocHeading {
+  value: string
+  depth: number
+  url: string
+}
+
 // プロジェクトデータの型定義（既存のものを移動）
 export interface ProjectData {
   title: string

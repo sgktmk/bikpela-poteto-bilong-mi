@@ -14,7 +14,7 @@ export default async (req, res) => {
   }
 
   try {
-    const test = await mailchimp.lists.addListMember(process.env.MAILCHIMP_AUDIENCE_ID, {
+    await mailchimp.lists.addListMember(process.env.MAILCHIMP_AUDIENCE_ID, {
       email_address: email,
       status: 'subscribed',
     })

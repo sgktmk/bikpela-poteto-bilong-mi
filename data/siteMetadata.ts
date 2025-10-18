@@ -59,6 +59,8 @@ interface SiteMetadata {
   email: string
   github: string
   twitter: string
+  facebook?: string
+  linkedin?: string
   youtube: string
   locale: string
   analytics: Analytics
