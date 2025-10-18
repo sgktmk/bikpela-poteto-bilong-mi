@@ -12,6 +12,7 @@ module.exports = {
     './lib/**/*.{js,ts,jsx,tsx}',
     './data/**/*.mdx',
   ],
+  safelist: ['h-4', 'w-4', 'h-5', 'w-5', 'h-6', 'w-6', 'h-7', 'w-7', 'h-8', 'w-8', 'h-10', 'w-10'],
   darkMode: 'class',
   theme: {
     extend: {

@@ -26,10 +26,21 @@ const components = {
 }
 
 const SocialIcon: React.FC<SocialIconProps> = ({ kind, href, size = '8' }) => {
-  if (!href || (kind === 'mail' && !/^mailto:\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(href)))
-    return null
+  if (!href || (kind === 'mail' && !href.includes('mailto:'))) return null
 
   const SocialSvg = components[kind]
+
+  // Tailwindのサイズクラスを明示的に定義
+  const sizeClasses = {
+    '4': 'h-4 w-4',
+    '5': 'h-5 w-5',
+    '6': 'h-6 w-6',
+    '7': 'h-7 w-7',
+    '8': 'h-8 w-8',
+    '10': 'h-10 w-10',
+  }
+
+  const sizeClass = sizeClasses[size as keyof typeof sizeClasses] || 'h-6 w-6'
 
   return (
     <a
@@ -40,7 +51,7 @@ const SocialIcon: React.FC<SocialIconProps> = ({ kind, href, size = '8' }) => {
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
-        className={`fill-current text-gray-700 hover:text-blue-500 dark:text-gray-200 dark:hover:text-blue-400 h-${size} w-${size}`}
+        className={`fill-current text-gray-700 hover:text-blue-500 dark:text-gray-200 dark:hover:text-blue-400 ${sizeClass}`}
       />
     </a>
   )
