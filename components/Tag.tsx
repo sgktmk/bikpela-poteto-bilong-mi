@@ -1,7 +1,12 @@
+import React from 'react'
 import Link from 'next/link'
 import kebabCase from '@/lib/utils/kebabCase'
 
-const Tag = ({ text }) => {
+interface TagProps {
+  text: string
+}
+
+const Tag: React.FC<TagProps> = ({ text }) => {
   return (
     <Link
       href={`/tags/${kebabCase(text)}`}
