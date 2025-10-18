@@ -1,4 +1,72 @@
-const siteMetadata = {
+interface Analytics {
+  plausibleDataDomain: string
+  simpleAnalytics: boolean
+  umamiWebsiteId: string
+  googleAnalyticsId: string
+  posthogAnalyticsId: string
+}
+
+interface Newsletter {
+  provider: 'mailchimp' | 'buttondown' | 'convertkit' | 'klaviyo' | 'revue' | 'emailoctopus'
+}
+
+interface GiscusConfig {
+  repo: string | undefined
+  repositoryId: string | undefined
+  category: string | undefined
+  categoryId: string | undefined
+  mapping: 'pathname' | 'url' | 'title'
+  reactions: '1' | '0'
+  metadata: '1' | '0'
+  theme: string
+  inputPosition: 'bottom' | 'top'
+  lang: string
+  darkTheme: string
+  themeURL: string
+}
+
+interface UtterancesConfig {
+  repo: string | undefined
+  issueTerm: string
+  label: string
+  theme: string
+  darkTheme: string
+}
+
+interface DisqusConfig {
+  shortname: string | undefined
+}
+
+interface Comment {
+  provider: 'giscus' | 'utterances' | 'disqus'
+  giscusConfig: GiscusConfig
+  utterancesConfig: UtterancesConfig
+  disqusConfig: DisqusConfig
+}
+
+interface SiteMetadata {
+  title: string
+  author: string
+  headerTitle: string
+  description: string
+  language: string
+  theme: 'system' | 'dark' | 'light'
+  siteUrl: string
+  siteRepo: string
+  siteLogo: string
+  image: string
+  socialBanner: string
+  email: string
+  github: string
+  twitter: string
+  youtube: string
+  locale: string
+  analytics: Analytics
+  newsletter: Newsletter
+  comment: Comment
+}
+
+const siteMetadata: SiteMetadata = {
   title: 'Bikpela Poteto Bilong Mi',
   author: 'sgktmk',
   headerTitle: 'Bikpela Poteto Bilong Mi',
@@ -80,4 +148,4 @@ const siteMetadata = {
   },
 }
 
-module.exports = siteMetadata
+export default siteMetadata

@@ -1,7 +1,7 @@
 import siteMetadata from '@/data/siteMetadata'
 
-const formatDate = (date) => {
-  const options = {
+const formatDate = (date: string | Date): string => {
+  const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
