@@ -21,7 +21,7 @@ const MobileNav: React.FC = () => {
     <div className="sm:hidden">
       <button
         type="button"
-        className="ml-1 mr-1 h-8 w-8 rounded py-1"
+        className="ml-2 mr-1 h-8 w-8 rounded p-1 transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-700"
         aria-label="Toggle Menu"
         onClick={onToggleNav}
       >
@@ -39,7 +39,7 @@ const MobileNav: React.FC = () => {
         </svg>
       </button>
       <div
-        className={`fixed left-0 top-0 z-10 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out dark:bg-gray-800 ${
+        className={`fixed left-0 top-0 z-50 h-full w-full transform bg-white/95 backdrop-blur-sm duration-300 ease-in-out dark:bg-gray-900/95 ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

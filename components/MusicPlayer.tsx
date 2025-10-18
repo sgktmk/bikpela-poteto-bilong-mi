@@ -164,9 +164,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
   }
 
   return (
-    <div>
+    <div className="music-notation-container">
       <div ref={sheetRef}></div>
-      <div id="audio"></div>
+      <div id="audio" className="mt-4"></div>
     </div>
   )
 }

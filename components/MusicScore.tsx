@@ -30,7 +30,11 @@ const MusicScore: React.FC<MusicScoreProps> = ({ code }) => {
     }
   }, [code])
 
-  return <div id="musicNotation"></div>
+  return (
+    <div className="music-notation-container">
+      <div id="musicNotation"></div>
+    </div>
+  )
 }
 
 export default MusicScore

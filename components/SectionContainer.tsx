@@ -5,7 +5,7 @@ interface SectionContainerProps {
 }
 
 const SectionContainer: React.FC<SectionContainerProps> = ({ children }) => {
-  return <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">{children}</div>
+  return <div className="mx-auto max-w-4xl px-4 sm:px-6 xl:max-w-6xl xl:px-8">{children}</div>
 }
 
 export default SectionContainer

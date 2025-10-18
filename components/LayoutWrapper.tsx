@@ -15,35 +15,31 @@ interface LayoutWrapperProps {
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   return (
     <SectionContainer>
-      <div className="flex h-screen flex-col justify-between">
-        <header className="flex items-center justify-between py-10">
-          <div>
+      <div className="flex min-h-screen flex-col justify-between">
+        <header className="flex items-center justify-between py-8">
+          <div className="flex flex-col space-y-2">
             <Link href="/" aria-label={siteMetadata.headerTitle}>
-              <div className="flex items-center justify-between">
-                <div className="mr-3">
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0">
                   <Logo />
                 </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
-                  <div className="hidden h-6 text-2xl font-semibold sm:block">
+                  <div className="text-2xl font-semibold leading-tight">
                     {siteMetadata.headerTitle}
                   </div>
                 ) : (
                   siteMetadata.headerTitle
                 )}
               </div>
-              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-                {siteMetadata.description}
-              </p>
             </Link>
+            <p className="max-w-md text-base leading-6 text-gray-600 dark:text-gray-400">
+              {siteMetadata.description}
+            </p>
           </div>
           <div className="flex items-center text-base leading-5">
             <div className="hidden sm:block">
               {headerNavLinks.map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.href}
-                  className="p-1 font-medium text-gray-900 dark:text-gray-100 sm:p-4"
-                >
+                <Link key={link.title} href={link.href} className="header-nav-link">
                   {link.title}
                 </Link>
               ))}
