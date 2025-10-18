@@ -7,6 +7,26 @@ Bikpela Poteto Bilong Mi is a Next.js-based personal blog with specialized music
 ## Claude Memories
 
 - 常に日本語で会話する。
+- セッション終了時、または作業の区切りがついたときなどのタイミングで、claude-code-twitter/ ディレクトリに実装日記をマークダウンファイルで記録すること。
+  - ファイル名形式: YYYYMMDD-{作業内容を表す簡潔な名前}.md（例: 20251018-toggle-sheets.md）
+    実装日記に含める内容（あくまで一例。思い浮かんだことをなんでも記録する。）:
+  1. セッション情報（日付、ブランチ名、作業概要）
+  2. 実装の背景と課題
+  3. 実装内容の詳細（コード例を含む）
+  4. 技術的な学びや発見
+  5. 遭遇した問題とその解決方法
+  6. コミット履歴と統計
+  7. ベストプラクティス
+  8. 今後の改善案
+  9. 振り返り（うまくいった点、改善できる点、学び）
+  10. プロジェクト外の雑談や思いついたこと、気づき
+  11. セッション中の会話の流れや試行錯誤の過程
+      記録スタイル:
+  - 時系列順に自然な流れで記述
+  - コード例は具体的に記載（変更前後の比較など）
+  - 失敗したことや試行錯誤も正直に記録
+  - 将来の自分や他の開発者が読んでも分かるように
+  - 技術的な内容だけでなく、考えたことや気づいたことも自由に記録してよい
 
 ## Quick Start Commands
 
@@ -211,7 +231,6 @@ description: Brief description
 
 ```jsx
 import MusicPlayer from '@/components/MusicPlayer'
-
 ;<MusicPlayer
   abcNotation={`
 X:1
@@ -309,3 +328,5 @@ Configured in `next.config.js`:
 ```
 
 ```
+
+- 作業の区切りのよいところでコミットを作成する。
