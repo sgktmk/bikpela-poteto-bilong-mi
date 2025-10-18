@@ -6,6 +6,8 @@ import CustomLink from './Link'
 import TOCInline from './TOCInline'
 import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
+import MusicScore from './MusicScore'
+import MusicPlayer from './MusicPlayer'
 
 interface WrapperProps {
   components?: any
@@ -25,6 +27,8 @@ export const MDXComponents = {
   a: CustomLink,
   pre: Pre,
   BlogNewsletterForm: BlogNewsletterForm,
+  MusicScore,
+  MusicPlayer,
   wrapper: ({ layout, ...rest }: WrapperProps) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Layout = require(`../layouts/${layout}`).default

@@ -30,7 +30,7 @@ interface TagSEOProps {
 interface BlogSEOProps {
   authorDetails?: AuthorDetails[]
   title: string
-  summary: string
+  summary?: string
   date: string
   lastmod?: string
   url: string
@@ -175,7 +175,7 @@ export const BlogSEO: React.FC<BlogSEOProps> = ({
         url: `${siteMetadata.siteUrl}${siteMetadata.siteLogo}`,
       },
     },
-    description: summary,
+    description: summary || title,
   }
 
   const twImageUrl = featuredImages[0].url
@@ -184,7 +184,7 @@ export const BlogSEO: React.FC<BlogSEOProps> = ({
     <>
       <CommonSEO
         title={title}
-        description={summary}
+        description={summary || title}
         ogType="article"
         ogImage={featuredImages}
         twImage={twImageUrl}

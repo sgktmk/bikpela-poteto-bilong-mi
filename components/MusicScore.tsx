@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
-
-// ABCJSライブラリの型定義（シンプル版）
-declare const abcjs: {
-  renderAbc: (elementId: string, abcString: string, options?: any) => any[]
-}
+import abcjs from 'abcjs'
+import { ABCJSRenderOptions } from '@/types'
 
 interface MusicScoreProps {
   code: string
@@ -11,7 +8,26 @@ interface MusicScoreProps {
 
 const MusicScore: React.FC<MusicScoreProps> = ({ code }) => {
   useEffect(() => {
-    abcjs.renderAbc('musicNotation', code)
+    // SSR対応: ブラウザ環境でのみ実行
+    if (typeof window === 'undefined') return
+
+    try {
+      const options: ABCJSRenderOptions = {
+        responsive: 'resize',
+        expandToWidest: true,
+        add_classes: true,
+      }
+
+      // DOM要素の存在確認
+      const element = document.getElementById('musicNotation')
+      if (element && abcjs && typeof abcjs.renderAbc === 'function') {
+        abcjs.renderAbc('musicNotation', code, options)
+      } else {
+        console.warn('MusicScore: DOM element or abcjs library not available')
+      }
+    } catch (error) {
+      console.error('Error rendering music notation:', error)
+    }
   }, [code])
 
   return <div id="musicNotation"></div>

@@ -32,6 +32,7 @@ export interface AuthorDetails {
   twitter?: string
   linkedin?: string
   github?: string
+  youtube?: string
 }
 
 // 目次関連の型定義
@@ -51,29 +52,32 @@ export interface ProjectData {
 
 // 音楽記譜法関連の型定義
 export interface ABCJSRenderOptions {
-  responsive?: 'resize' | string
+  responsive?: 'resize'
   expandToWidest?: boolean
   add_classes?: boolean
 }
 
+// ABCJS関連の型定義をより柔軟に
 export interface ABCJSVisualObject {
   millisecondsPerMeasure(): number
+  // その他のプロパティは any で柔軟に対応
+  [key: string]: any
 }
 
 // ABCJS外部ライブラリの型定義
 export interface ABCJSSynthController {
   load(elementId: string, cursorControl: any, options: any): void
-  setTune(visualObj: ABCJSVisualObject, userAction: boolean, options: any): void
+  setTune(visualObj: any, userAction: boolean, options: any): void
 }
 
 export interface ABCJSCreateSynth {
   init(options: {
-    visualObj: ABCJSVisualObject
+    visualObj: any
     audioContext: AudioContext
     millisecondsPerMeasure: number
     options: any
   }): Promise<void>
-  prime(options: { audioContext: AudioContext; options: any }): Promise<void>
+  prime(options?: { audioContext: AudioContext; options: any }): Promise<void>
 }
 
 export interface ABCJSSynth {
@@ -83,11 +87,7 @@ export interface ABCJSSynth {
 }
 
 export interface ABCJSLib {
-  renderAbc(
-    elementId: string | HTMLElement,
-    abcString: string,
-    options?: ABCJSRenderOptions
-  ): ABCJSVisualObject[]
+  renderAbc(elementId: string | HTMLElement, abcString: string, options?: ABCJSRenderOptions): any[]
   synth: ABCJSSynth
 }
 

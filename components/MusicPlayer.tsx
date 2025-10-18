@@ -1,25 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-
-// ABCJS型定義の拡張
-declare const ABCJS: {
-  renderAbc: (element: HTMLElement | null, abcString: string, options?: any) => any[]
-  synth: {
-    supportsAudio: () => boolean
-    SynthController: new () => {
-      load: (elementId: string, cursorControl: any, options: any) => void
-      setTune: (visualObj: any, userAction: boolean, options: any) => void
-    }
-    CreateSynth: new () => {
-      init: (options: {
-        visualObj: any
-        audioContext: AudioContext
-        millisecondsPerMeasure: number
-        options: any
-      }) => Promise<void>
-      prime: (options: { audioContext: AudioContext; options: any }) => Promise<void>
-    }
-  }
-}
+import ABCJS from 'abcjs'
+import { ABCJSRenderOptions } from '@/types'
 
 interface MusicPlayerProps {
   abcNotation: string
@@ -28,7 +9,7 @@ interface MusicPlayerProps {
 interface CursorControl {
   beatSubdivisions: number
   onStart: () => void
-  onEvent: (ev: any) => void
+  onEvent: (ev: { elements?: HTMLElement[][] }) => void
   onFinished: () => void
 }
 
@@ -37,6 +18,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
   const lastHighlightedRef = useRef<HTMLElement[]>([])
 
   useEffect(() => {
+    // SSR対応: ブラウザ環境でのみ実行
+    if (typeof window === 'undefined') return
+    if (!sheetRef.current) return
+
     const styleId = `music-player-style-${Math.random().toString(36).substr(2, 9)}`
     const style = document.createElement('style')
     style.id = styleId
@@ -49,22 +34,46 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
     `
     document.head.appendChild(style)
 
-    const visualObj = ABCJS.renderAbc(sheetRef.current, abcNotation, {
-      responsive: 'resize',
-      expandToWidest: true,
-      add_classes: true,
-    })[0]
+    try {
+      // ABCJSライブラリの存在確認
+      if (!ABCJS || typeof ABCJS.renderAbc !== 'function') {
+        console.warn('MusicPlayer: ABCJS library not available')
+        return
+      }
 
-    const swingMatch = abcNotation.match(/%%MIDI swing\s+(\d+)/)
-    const swingValue = swingMatch ? parseInt(swingMatch[1], 10) : 0
-    playMusic(visualObj, swingValue)
+      const options: ABCJSRenderOptions = {
+        responsive: 'resize',
+        expandToWidest: true,
+        add_classes: true,
+      }
+
+      const visualObjects = ABCJS.renderAbc(sheetRef.current, abcNotation, options)
+      if (visualObjects && visualObjects.length > 0) {
+        const visualObj = visualObjects[0] as any
+
+        const swingMatch = abcNotation.match(/%%MIDI swing\s+(\d+)/)
+        const swingValue = swingMatch ? parseInt(swingMatch[1], 10) : 0
+        playMusic(visualObj, swingValue)
+      }
+    } catch (error) {
+      console.error('Error rendering music player:', error)
+    }
 
     return () => {
-      document.head.removeChild(style)
+      const existingStyle = document.getElementById(styleId)
+      if (existingStyle) {
+        document.head.removeChild(existingStyle)
+      }
     }
   }, [abcNotation])
 
   const playMusic = (visualObj: any, swingValue = 0) => {
+    // ABCJSライブラリとsynthの存在確認
+    if (!ABCJS || !ABCJS.synth || typeof ABCJS.synth.supportsAudio !== 'function') {
+      console.warn('MusicPlayer: ABCJS synth not available')
+      return
+    }
+
     if (ABCJS.synth.supportsAudio()) {
       // Create synth controller with cursor support
       const synthControl = new ABCJS.synth.SynthController()
@@ -87,8 +96,11 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
           if (ev && ev.elements && ev.elements.length > 0) {
             for (let i = 0; i < ev.elements.length; i++) {
               for (let j = 0; j < ev.elements[i].length; j++) {
-                ev.elements[i][j].setAttribute('fill', '#dc2626')
-                lastHighlightedRef.current.push(ev.elements[i][j])
+                const element = ev.elements[i][j]
+                if (element && typeof element.setAttribute === 'function') {
+                  element.setAttribute('fill', '#dc2626')
+                  lastHighlightedRef.current.push(element)
+                }
               }
             }
           }
@@ -111,7 +123,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
 
       const createSynth = async () => {
         try {
-          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+          if (!AudioContextClass) {
+            console.error('AudioContext is not supported in this browser.')
+            return
+          }
+
+          const audioContext = new AudioContextClass()
 
           const options = {
             programOffsets: {},
@@ -131,7 +149,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ abcNotation }) => {
             options,
           })
 
-          await synth.prime({ audioContext, options })
+          await synth.prime()
 
           synthControl.setTune(visualObj, false, options)
         } catch (error) {
