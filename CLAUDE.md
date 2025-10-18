@@ -211,7 +211,6 @@ description: Brief description
 
 ```jsx
 import MusicPlayer from '@/components/MusicPlayer'
-
 ;<MusicPlayer
   abcNotation={`
 X:1
@@ -309,3 +308,5 @@ Configured in `next.config.js`:
 ```
 
 ```
+
+- 作業の区切りのよいところでコミットを作成する。
