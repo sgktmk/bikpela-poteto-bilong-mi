@@ -71,7 +71,7 @@ git add . && git commit -m "message"
 ### Technology Stack
 
 - **Framework**: Next.js 15.2.4 with React 19.1.0
-- **Language**: JavaScript (no TypeScript)
+- **Language**: TypeScript 5.9.3 (with strict mode disabled for gradual migration)
 - **Styling**: Tailwind CSS 3.0.23 with typography plugin
 - **Content**: MDX with mdx-bundler for enhanced processing
 - **Music Notation**: ABCJS 6.4.4 for sheet music rendering and playback
@@ -82,9 +82,10 @@ git add . && git commit -m "message"
 
 ```
 bikpela-poteto-bilong-mi/
-├── components/               # Reusable React components
-│   ├── MusicPlayer.js       # Core music notation with playback
-│   ├── MusicScore.js        # Visual-only music notation
+├── components/               # Reusable React components (TypeScript)
+│   ├── MusicPlayer.tsx      # Core music notation with playback
+│   ├── MusicScore.tsx       # Visual-only music notation
+│   ├── MusicPlayerWithToggle.tsx  # Music player with sheet/notation toggle
 │   ├── analytics/           # Analytics provider components
 │   ├── comments/            # Comment system components
 │   └── social-icons/        # SVG social media icons
@@ -93,15 +94,18 @@ bikpela-poteto-bilong-mi/
 │   ├── authors/            # Author profile information
 │   ├── siteMetadata.js     # Site-wide configuration
 │   └── headerNavLinks.js   # Navigation configuration
-├── layouts/                 # Page layout templates
-│   ├── PostLayout.js       # Main blog post layout
-│   ├── ListLayout.js       # Blog listing layout
-│   └── AuthorLayout.js     # Author profile layout
-├── lib/                     # Utility libraries
-│   ├── mdx.js              # MDX processing and bundling
-│   ├── tags.js             # Tag management utilities
+├── layouts/                 # Page layout templates (TypeScript)
+│   ├── PostLayout.tsx      # Main blog post layout
+│   ├── ListLayout.tsx      # Blog listing layout
+│   └── AuthorLayout.tsx    # Author profile layout
+├── lib/                     # Utility libraries (TypeScript)
+│   ├── mdx.ts              # MDX processing and bundling
+│   ├── tags.ts             # Tag management utilities
 │   └── utils/              # Helper functions
-├── pages/                   # Next.js pages (file-based routing)
+├── types/                   # TypeScript type definitions
+│   ├── index.ts            # Common type definitions (FrontMatter, AuthorDetails, etc.)
+│   └── svg.d.ts            # SVG module declarations
+├── pages/                   # Next.js pages (file-based routing, JavaScript)
 │   ├── api/                # API routes for newsletter services
 │   ├── blog/               # Blog-related pages
 │   └── _app.js             # Root application component
@@ -155,17 +159,22 @@ bikpela-poteto-bilong-mi/
 
 ### File Naming
 
-- **Components**: PascalCase (e.g., `MusicPlayer.js`)
-- **Utilities**: camelCase (e.g., `formatDate.js`)
-- **Pages**: Next.js conventions (lowercase, kebab-case for multi-word)
+- **Components**: PascalCase with `.tsx` extension (e.g., `MusicPlayer.tsx`)
+- **Utilities**: camelCase with `.ts` extension (e.g., `formatDate.ts`)
+- **Type Definitions**: PascalCase interfaces/types in `types/` directory
+- **Pages**: Next.js conventions (lowercase, kebab-case for multi-word, `.js` for now)
 - **Blog Posts**: Date-hierarchical structure (`YYYY/MM/DD/title.mdx`)
 
 ### Component Patterns
 
-- **Functional Components**: All components use hooks
-- **Props Destructuring**: Consistent parameter destructuring
+- **Functional Components**: All components use hooks with TypeScript
+- **Type Definitions**: Use interfaces for props and common data structures
+- **Props Destructuring**: Consistent parameter destructuring with type annotations
 - **Default Exports**: All components use default exports
-- **Absolute Imports**: Uses `@/` prefix for imports (configured in jsconfig.json)
+- **Absolute Imports**: Uses `@/` prefix for imports (configured in tsconfig.json)
+  - `@/components/*` for component imports
+  - `@/types` or `@/types/*` for type definitions
+  - `@/lib/*`, `@/data/*`, `@/layouts/*`, `@/css/*` for respective directories
 
 ### Content Patterns
 
@@ -180,7 +189,10 @@ bikpela-poteto-bilong-mi/
 
 - `next.config.js`: Next.js configuration with security headers and Preact swap
 - `tailwind.config.js`: Custom theme with typography plugin and dark mode
-- `jsconfig.json`: Path mapping for absolute imports
+- `tsconfig.json`: TypeScript configuration with path mapping for absolute imports
+  - Path mappings: `@/components/*`, `@/types`, `@/lib/*`, etc.
+  - `strict: false` for gradual TypeScript migration
+  - `allowJs: true` to support mixed JS/TS codebase
 - `prettier.config.js`: Code formatting rules
 
 ### Content Configuration
@@ -300,7 +312,8 @@ Configured in `next.config.js`:
 ### Current Limitations
 
 - No test suite configured
-- No TypeScript (JavaScript only)
+- TypeScript strict mode disabled (gradual migration in progress)
+- Pages directory still uses JavaScript (not yet migrated to TypeScript)
 - Limited CI/CD (no automated testing)
 - No database (file-based content only)
 
@@ -319,7 +332,10 @@ Configured in `next.config.js`:
 ## Recommended Improvements
 
 1. **Add Testing**: Jest + React Testing Library + Cypress
-2. **TypeScript Migration**: Gradual migration for better type safety
+2. **Complete TypeScript Migration**:
+   - Enable strict mode in tsconfig.json
+   - Migrate pages directory from JavaScript to TypeScript
+   - Add comprehensive type coverage for all components and utilities
 3. **CI/CD Pipeline**: Automated testing and deployment
 4. **Content Management**: Consider headless CMS for non-technical users
 5. **Performance**: Implement service worker for offline support
