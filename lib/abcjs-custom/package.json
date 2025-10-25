@@ -1,0 +1,11 @@
+{
+  "name": "abcjs-custom",
+  "version": "6.5.2-custom.1",
+  "description": "Custom build of abcjs with gchord duration extension support",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "license": "MIT",
+  "customizations": [
+    "gchord numeric suffix support for extended note durations (c2, f4, etc.)"
+  ]
+}
